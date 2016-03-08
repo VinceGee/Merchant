@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.vhg.empire.merchant.Cart.ShoppingCartHelper;
+import com.vhg.empire.merchant.Cart.to_delete.ShoppingCartHelper;
 import com.vhg.empire.merchant.R;
 
 /**
@@ -32,8 +32,10 @@ public class ProductDetailsActivity extends Activity{
         // Set the proper image and text
         ImageView productImageView = (ImageView) findViewById(R.id.ImageViewProduct);
         productImageView.setImageDrawable(selectedProduct.productImage);
+
         TextView productTitleTextView = (TextView) findViewById(R.id.TextViewProductTitle);
         productTitleTextView.setText(selectedProduct.title);
+
         TextView productDetailsTextView = (TextView) findViewById(R.id.TextViewProductDetails);
         productDetailsTextView.setText(selectedProduct.description);
 

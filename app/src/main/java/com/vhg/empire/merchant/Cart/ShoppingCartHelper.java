@@ -20,9 +20,9 @@ public class ShoppingCartHelper {
     public static List<Product> getCatalog(Resources res){
         if(catalog == null) {
             catalog = new Vector<Product>();
-            catalog.add(new Product("Dead or Alive", res.getDrawable(R.drawable.image), "Dead or Alive by Tom Clancy with Grant Blackwood", 29.99));
+            /*catalog.add(new Product("Dead or Alive", res.getDrawable(R.drawable.image), "Dead or Alive by Tom Clancy with Grant Blackwood", 29.99));
             catalog.add(new Product("Switch", res.getDrawable(R.drawable.image),"Switch by Chip Heath and Dan Heath", 24.99));
-            catalog.add(new Product("Watchmen", res.getDrawable(R.drawable.image),"Watchmen by Alan Moore and Dave Gibbons", 14.99));
+            catalog.add(new Product("Watchmen", res.getDrawable(R.drawable.image),"Watchmen by Alan Moore and Dave Gibbons", 14.99));*/
         }
 
         return catalog;

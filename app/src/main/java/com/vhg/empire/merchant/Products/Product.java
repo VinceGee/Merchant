@@ -44,12 +44,12 @@ public class Product extends Fragment{
     }*/
 
 
-    public Product(String title, Drawable productImage, String description,double price) {
+   /* public Product(String title, Drawable productImage, String description,double price) {
         this.title = title;
         this.productImage = productImage;
         this.description = description;
         this.price = price;
-    }
+    }*/
 
 
 }

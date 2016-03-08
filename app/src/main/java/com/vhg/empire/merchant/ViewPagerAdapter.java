@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.vhg.empire.merchant.Account.Account;
-import com.vhg.empire.merchant.Cart.Cart;
-import com.vhg.empire.merchant.Products.Product;
+import com.vhg.empire.merchant.Account.AccountFragment;
+import com.vhg.empire.merchant.Cart.CardViewFragment;
+import com.vhg.empire.merchant.Account.ExpandableFragment;
 
 /**
  * Created by VinceGee on 9/11/2015.
@@ -32,18 +32,23 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter{
 
         if(position == 0) // if the position is 0 we are returning the First tab
         {
-            Product product = new Product();
+           /* Product product = new Product();*/
+            //ProductFragment product = new ProductFragment();
+            ExpandableFragment product = new ExpandableFragment();
             return product;
         }
         if (position == 1)
         {
-            Cart cart = new Cart();
+            CardViewFragment cart = new CardViewFragment();
+         //   Cart cart = new Cart();
             return cart;
         }
         else // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            Account account = new Account();
-            return account;
+            AccountFragment accountFragment = new AccountFragment();
+            return accountFragment;
+
+
         }
 
 

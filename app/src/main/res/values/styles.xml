@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
 
-       <!-- <item name="windowActionBar">false</item>-->
+        <!-- <item name="windowActionBar">false</item>-->
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <!-- Customize your theme here. -->
@@ -12,13 +12,24 @@
 
         <!--<item name="android:windowBackground">@color/ColorPrimary</item>-->
 
-        <item name="colorControlNormal">@color/iron</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlHighlight">@color/white</item>
+        <item name="colorControlNormal">@color/ColorPrimaryDark</item>
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="colorControlHighlight">@color/accent</item>
         <item name="android:textColorHint">@color/iron</item>
 
         <item name="colorButtonNormal">@color/ColorPrimaryDark</item>
-        <item name="android:colorButtonNormal">@color/ColorPrimaryDark</item>
+        <!-- <item name="android:colorButtonNormal">@color/ColorPrimaryDark</item>-->
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="toolTextSize" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">12dp</item>
+        <item name="android:scrollHorizontally">true</item>
     </style>
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
@@ -26,6 +37,22 @@
         <item name="android:textColorPrimary">@color/iron</item>
         <item name="android:background">@color/ColorPrimary</item>
     </style>
+    <!-- Popup Menu Background Color styles -->
+    <style name="MyPopupMenu"
+        parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@color/white</item>
+    </style>
+    <!-- Popup Menu Text Color styles -->
+    <style name="TextAppearance">
+        <item name="android:textColor">@color/ColorPrimaryDark</item>
+    </style>
 
+    <!-- ToolBar -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#000000</item>
+        <item name="actionMenuTextColor">#000000</item>
+
+    </style>
 
 </resources>

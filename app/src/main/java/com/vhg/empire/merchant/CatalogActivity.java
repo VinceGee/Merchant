@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.vhg.empire.merchant.Cart.ShoppingCartActivity;
-import com.vhg.empire.merchant.Cart.ShoppingCartHelper;
+import com.vhg.empire.merchant.Cart.to_delete.ShoppingCartActivity;
+import com.vhg.empire.merchant.Cart.to_delete.ShoppingCartHelper;
 import com.vhg.empire.merchant.Products.Product;
 import com.vhg.empire.merchant.Products.ProductAdapter;
 import com.vhg.empire.merchant.Products.ProductDetailsActivity;
