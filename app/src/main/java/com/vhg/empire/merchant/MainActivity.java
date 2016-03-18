@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.vhg.empire.merchant.AddressBook.ContactsMain;
+import com.vhg.empire.merchant.Cart.search.Search;
+import com.vhg.empire.merchant.Cart.search.scanner.FullScannerFragment;
+import com.vhg.empire.merchant.Cart.search.scanner.TextingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onBackPressed() {
+        if (pager.getCurrentItem() == 0) {
+            if (adapter.getItem(0) instanceof FullScannerFragment) {
+                ((FullScannerFragment) adapter.getItem(0)).backPressed();
+            } else if (adapter.getItem(0) instanceof Search) {
+                finish();
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

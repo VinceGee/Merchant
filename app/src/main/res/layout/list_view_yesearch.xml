@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <!-- Idioms id will be HIDDEN - used to pass to other activity -->
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="12"
+        android:visibility="gone" />
+
+    <!-- Entry data display -->
+    <TextView
+        android:id="@+id/pname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="hp laptop"
+        android:textSize="17dip"
+        android:textStyle="bold" />
+    <!-- the Meaning data display -->
+    <TextView
+        android:id="@+id/pdesc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Mobile work station"
+        android:textSize="14dip" />
+
+    <!-- Entry data display -->
+    <TextView
+        android:id="@+id/pprice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="$600.00"
+        android:textSize="17dip"
+        android:textStyle="bold" />
+    <!-- the Meaning data display -->
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/pimage"
+        android:layout_width="70sp"
+        android:layout_height="90sp"
+        android:src="@drawable/dell_inspiron_"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="8dp"
+        android:scaleType="fitCenter" >
+    </com.android.volley.toolbox.NetworkImageView>
+    <!--<ImageView
+        android:id="@+id/pimage"
+        android:layout_width="70sp"
+        android:layout_height="90sp"
+        android:src="@drawable/dell_inspiron_"
+         />-->
+
+</LinearLayout>
