@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="tag_type_view" type="id"/>
+    <item name="tag_row" type="id"/>
+    <item name="tag_column" type="id"/>
+
+    <item type="id" name="menu_flash" />
+    <item type="id" name="menu_auto_focus" />
+    <item type="id" name="menu_formats" />
+    <item type="id" name="menu_camera_selector" />
+
+</resources>
