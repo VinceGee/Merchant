@@ -1,22 +1,15 @@
 package com.vhg.empire.merchant.Cart.search;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.vhg.empire.merchant.Cart.search.scanner.FullScannerFragment;
-import com.vhg.empire.merchant.Cart.search.scanner.TextingFragment;
-import com.vhg.empire.merchant.FirstPageFragmentListener;
 import com.vhg.empire.merchant.R;
 
 /**

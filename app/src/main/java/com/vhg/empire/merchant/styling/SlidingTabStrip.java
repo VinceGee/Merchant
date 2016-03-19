@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vhg.empire.merchant;
+package com.vhg.empire.merchant.styling;
 
 import android.R;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.vhg.empire.merchant;
+package com.vhg.empire.merchant.styling;
 
 import android.content.Context;
 import android.content.res.TypedArray;

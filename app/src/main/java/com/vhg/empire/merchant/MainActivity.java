@@ -1,18 +1,16 @@
 package com.vhg.empire.merchant;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.vhg.empire.merchant.AddressBook.ContactsMain;
 import com.vhg.empire.merchant.Cart.search.Search;
 import com.vhg.empire.merchant.Cart.search.scanner.FullScannerFragment;
-import com.vhg.empire.merchant.Cart.search.scanner.TextingFragment;
+import com.vhg.empire.merchant.maAdapter.ViewPagerAdapter;
+import com.vhg.empire.merchant.styling.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -96,11 +94,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        else if(id == R.id.addressbook){
+        /*else if(id == R.id.addressbook){
             Intent addr = new Intent(getApplicationContext(),ContactsMain.class);
             addr.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(addr);
-        }
+        }*/
 
         return true;
     }

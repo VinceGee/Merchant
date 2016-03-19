@@ -22,7 +22,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.vhg.empire.merchant.Cart.search.ListResult;
 import com.vhg.empire.merchant.Cart.search.utilities.ZXingScannerView;
-import com.vhg.empire.merchant.FirstPageFragmentListener;
+import com.vhg.empire.merchant.Cart.search.FirstPageFragmentListener;
 import com.vhg.empire.merchant.R;
 
 

@@ -1,17 +1,15 @@
-package com.vhg.empire.merchant;
+package com.vhg.empire.merchant.maAdapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.vhg.empire.merchant.Account.AccountFragment;
 import com.vhg.empire.merchant.Cart.CardViewFragment;
-import com.vhg.empire.merchant.Account.ExpandableFragment;
+import com.vhg.empire.merchant.Cart.search.FirstPageFragmentListener;
 import com.vhg.empire.merchant.Cart.search.Search;
 import com.vhg.empire.merchant.Cart.search.scanner.FullScannerFragment;
-import com.vhg.empire.merchant.Cart.search.scanner.TextingFragment;
 
 /**
  * Created by VinceGee on 9/11/2015.

@@ -1,4 +1,4 @@
-package com.vhg.empire.merchant;
+package com.vhg.empire.merchant.styling;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -15,6 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.vhg.empire.merchant.R;
 
 /**
  * Created by VinceGee on 7/22/2015.

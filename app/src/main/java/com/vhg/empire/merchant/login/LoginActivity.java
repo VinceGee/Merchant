@@ -1,4 +1,4 @@
-package com.vhg.empire.merchant;
+package com.vhg.empire.merchant.login;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.vhg.empire.merchant.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

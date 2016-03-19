@@ -1,11 +1,7 @@
 package com.vhg.empire.merchant.Cart.search.scanner;
 
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
-import com.vhg.empire.merchant.R;
 
 
 public class BaseScannerActivity extends AppCompatActivity {

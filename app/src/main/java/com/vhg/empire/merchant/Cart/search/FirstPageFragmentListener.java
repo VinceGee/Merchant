@@ -1,4 +1,4 @@
-package com.vhg.empire.merchant;
+package com.vhg.empire.merchant.Cart.search;
 
 /**
  * Created by VinceGee on 03/18/2016.
