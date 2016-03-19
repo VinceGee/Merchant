@@ -37,8 +37,8 @@ public class LoginActivity extends Activity {
     private static final String TAG = SignupActivity.class.getSimpleName();
     @InjectView(R.id.input_email) EditText inputEmail;
     @InjectView(R.id.input_password) EditText inputPassword;
-    @InjectView(R.id.btn_login) Button btnLogin;
-    @InjectView(R.id.link_signup) TextView btnLinkToRegister;
+    @InjectView(R.id.btnLogin) Button btnLogin;
+    @InjectView(R.id.btnLinkToRegisterScreen) TextView btnLinkToRegister;
     //private Button btnLogin;
     //private Button btnLinkToRegister;
     //private EditText inputEmail;
