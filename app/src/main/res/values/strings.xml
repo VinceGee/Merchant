@@ -15,5 +15,8 @@
     <string name="ok_button">OK</string>
     <string name="cancel_button">Cancel</string>
 
+    <string name="btn_link_to_register">Not a member? Sign up now.</string>
+    <string name="btn_link_to_login">Already registered! Login Here.</string>
+
 
 </resources>

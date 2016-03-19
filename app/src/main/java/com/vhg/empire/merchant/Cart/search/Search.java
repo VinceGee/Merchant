@@ -29,6 +29,8 @@ public class Search extends Fragment implements View.OnClickListener{
     public static Search newInstance() {
         return new Search(firstPageListener);
     }
+
+
     public Search(FirstPageFragmentListener listener) {
         firstPageListener = listener;
     }
