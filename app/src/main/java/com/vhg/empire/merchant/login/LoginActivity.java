@@ -35,8 +35,8 @@ import butterknife.InjectView;
  */
 public class LoginActivity extends Activity {
     private static final String TAG = SignupActivity.class.getSimpleName();
-    @InjectView(R.id.input_email) EditText inputEmail;
-    @InjectView(R.id.input_password) EditText inputPassword;
+    @InjectView(R.id.email) EditText inputEmail;
+    @InjectView(R.id.password) EditText inputPassword;
     @InjectView(R.id.btnLogin) Button btnLogin;
     @InjectView(R.id.btnLinkToRegisterScreen) TextView btnLinkToRegister;
     //private Button btnLogin;
@@ -52,7 +52,7 @@ public class LoginActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
+        //ButterKnife.inject(this);
 
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);

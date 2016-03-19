@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.vhg.empire.merchant.login.LoginActivity;
+
 /**
  * Created by VinceGee on 9/11/2015.
  */
@@ -35,7 +37,7 @@ public class SplashScreen extends Activity {
 
                 if (!mIsBackButtonPressed) {
                     // start the home screen if the back button wasn't pressed already
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
                     SplashScreen.this.startActivity(intent);
                 }
 

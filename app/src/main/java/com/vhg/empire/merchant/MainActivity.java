@@ -1,16 +1,24 @@
 package com.vhg.empire.merchant;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.vhg.empire.merchant.Cart.search.Search;
 import com.vhg.empire.merchant.Cart.search.scanner.FullScannerFragment;
+import com.vhg.empire.merchant.login.LoginActivity;
+import com.vhg.empire.merchant.login.SQLiteHandler;
+import com.vhg.empire.merchant.login.SessionManager;
 import com.vhg.empire.merchant.maAdapter.ViewPagerAdapter;
 import com.vhg.empire.merchant.styling.SlidingTabLayout;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     SlidingTabLayout tabs;
     CharSequence Titles[]={"Product","Cart","Account"};
     int Numboftabs =3;
+    private SQLiteHandler db;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +69,46 @@ public class MainActivity extends AppCompatActivity {
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+        ////////////////////LOGOUT////////////////////////////////////////
+
+
+        // SqLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // session manager
+        session = new SessionManager(getApplicationContext());
+
+        if (!session.isLoggedIn()) {
+            logoutUser();
+        }
+
+        // Fetching user details from SQLite
+        HashMap<String, String> user = db.getUserDetails();
+
+        String name = user.get("name");
+        String email = user.get("email");
+
 
 
     }
+
+    /**
+     * Logging out the user. Will set isLoggedIn flag to false in shared
+     * preferences Clears the user data from sqlite users table
+     * */
+    private void logoutUser() {
+        session.setLogin(false);
+
+        db.deleteUsers();
+
+        // Launching the login activity
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+
 
     public void onBackPressed() {
         if (pager.getCurrentItem() == 0) {
@@ -94,12 +141,12 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        /*else if(id == R.id.addressbook){
-            Intent addr = new Intent(getApplicationContext(),ContactsMain.class);
-            addr.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(addr);
-        }*/
+        else if(id == R.id.logout){
+            logoutUser();
+        }
 
         return true;
     }
+
+
 }
