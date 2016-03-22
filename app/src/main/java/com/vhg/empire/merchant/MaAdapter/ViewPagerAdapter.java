@@ -4,26 +4,27 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.vhg.empire.merchant.Account.AccountFragment;
-import com.vhg.empire.merchant.Cart.CardViewFragment;
-import com.vhg.empire.merchant.Cart.search.FirstPageFragmentListener;
-import com.vhg.empire.merchant.Cart.search.Search;
-import com.vhg.empire.merchant.Cart.search.scanner.FullScannerFragment;
+import com.vhg.empire.merchant.search.FirstPageFragmentListener;
+import com.vhg.empire.merchant.search.Search;
+import com.vhg.empire.merchant.search.scanner.FullScannerFragment;
 
 /**
  * Created by VinceGee on 9/11/2015.
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
+    ViewPager viewPager;
 
     private final class FirstPageListener implements
             FirstPageFragmentListener {
         public void onSwitchToNextFragment() {
             mFragmentManager.beginTransaction().remove(mFragmentAtPos0)
                     .commit();
-            if (mFragmentAtPos0 instanceof Search){
+            if (mFragmentAtPos0 instanceof Search) {
                 mFragmentAtPos0 = new FullScannerFragment(listener);
-            }else{ // Instance of NextFragment
+            } else { // Instance of NextFragment
                 mFragmentAtPos0 = new Search(listener);
             }
             notifyDataSetChanged();
@@ -46,13 +47,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }*/
 
 
-
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
         super(fm);
         mFragmentManager = fm;
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
+
 
     }
 
@@ -62,27 +63,23 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0: // Fragment # 0
-                if (mFragmentAtPos0 == null)
-                {
+                if (mFragmentAtPos0 == null) {
                     mFragmentAtPos0 = new Search(listener);
                 }
                 return mFragmentAtPos0;
 
-            case 1: // Fragment # 1
-                return new CardViewFragment();
-            case 2:// Fragment # 2
+            /*case 1: // Fragment # 1
+                return new ShoppingCartActivity();*/
+            case 1:// Fragment # 2
                 return new AccountFragment();
         }
         return null;
 
 
-
-
     }
 
     @Override
-    public int getItemPosition(Object object)
-    {
+    public int getItemPosition(Object object) {
         if (object instanceof Search &&
                 mFragmentAtPos0 instanceof FullScannerFragment) {
             return POSITION_NONE;

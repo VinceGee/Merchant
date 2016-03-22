@@ -7,11 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import com.vhg.empire.merchant.Cart.search.Search;
-import com.vhg.empire.merchant.Cart.search.scanner.FullScannerFragment;
+import com.vhg.empire.merchant.search.Search;
+import com.vhg.empire.merchant.search.scanner.FullScannerFragment;
 import com.vhg.empire.merchant.login.LoginActivity;
 import com.vhg.empire.merchant.login.SQLiteHandler;
 import com.vhg.empire.merchant.login.SessionManager;
@@ -27,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[]={"Product","Cart","Account"};
-    int Numboftabs =3;
+    CharSequence Titles[]={"Orders","Account"};
+    int Numboftabs =2;
     private SQLiteHandler db;
     private SessionManager session;
 
@@ -91,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    /*public static ViewPager getViewPager(){
+        return pager;
+    }*/
 
     /**
      * Logging out the user. Will set isLoggedIn flag to false in shared
