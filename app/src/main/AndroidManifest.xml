@@ -94,6 +94,7 @@
         <activity android:name=".product.ProductDetailsActivity"/>
 
 <activity android:name=".product.ShoppingCartActivity"/>
+        <activity android:name=".inserting.InsertClass"/>
 
     </application>
 

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.vhg.empire.merchant.R;
+import com.vhg.empire.merchant.inserting.InsertClass;
 
 /**
  * Created by VinceGee on 03/16/2016.
@@ -19,6 +20,7 @@ public class Search extends Fragment implements View.OnClickListener{
     private EditText txtkeyword;
     private Button btnsearch;
     private Button scan;
+    private Button insertbtn;
     static FirstPageFragmentListener firstPageListener;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,9 @@ public class Search extends Fragment implements View.OnClickListener{
         scan=(Button)view.findViewById(R.id.scan);
         btnsearch.setOnClickListener(this);
         scan.setOnClickListener(this);
+
+        insertbtn=(Button)view.findViewById(R.id.insertbtn);
+        insertbtn.setOnClickListener(this);
         return view;
     }
 
@@ -69,6 +74,9 @@ public class Search extends Fragment implements View.OnClickListener{
             searchIntent.putExtra("keyword",txtkeyword.getText().toString());
             //call the screen for listing
             startActivity(searchIntent);*/
+        }else if(v.getId()==R.id.insertbtn){
+            Intent insert = new Intent(getActivity(), InsertClass.class);
+            startActivity(insert);
         }
 
     }
