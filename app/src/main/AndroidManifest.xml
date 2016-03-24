@@ -93,8 +93,9 @@
         <activity android:name=".product.CatalogActivity"/>
         <activity android:name=".product.ProductDetailsActivity"/>
 
-<activity android:name=".product.ShoppingCartActivity"/>
-        <activity android:name=".inserting.InsertClass"/>
+<activity android:name=".product.ShoppingCartActivity"
+    android:noHistory="true"/>
+
 
     </application>
 

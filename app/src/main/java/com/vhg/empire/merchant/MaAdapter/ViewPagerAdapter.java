@@ -1,4 +1,4 @@
-package com.vhg.empire.merchant.maAdapter;
+package com.vhg.empire.merchant.MaAdapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

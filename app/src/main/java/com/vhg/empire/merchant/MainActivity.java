@@ -8,12 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.vhg.empire.merchant.MaAdapter.ViewPagerAdapter;
 import com.vhg.empire.merchant.search.Search;
 import com.vhg.empire.merchant.search.scanner.FullScannerFragment;
 import com.vhg.empire.merchant.login.LoginActivity;
 import com.vhg.empire.merchant.login.SQLiteHandler;
 import com.vhg.empire.merchant.login.SessionManager;
-import com.vhg.empire.merchant.maAdapter.ViewPagerAdapter;
+//import com.vhg.empire.merchant.maAdapter.ViewPagerAdapter;
 import com.vhg.empire.merchant.styling.SlidingTabLayout;
 
 import java.util.HashMap;

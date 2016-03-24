@@ -15,6 +15,7 @@ import java.util.List;
 
 public class ProductDetailsActivity extends Activity {
     private int itemQuantity = 0;
+    public static int mTotalQuantity;
 
     //@Bind(R.id.checkout_fragment_item_details_text_view_item_quantity)
     TextView mTextViewItemQuantity;
@@ -79,6 +80,7 @@ public class ProductDetailsActivity extends Activity {
         textViewCurrentQuantity.setText("Currently in Cart: "
                 + ShoppingCartHelper.getProductQuantity(selectedProduct));
 
+
         // Save a reference to the quantity edit text
         // final EditText editTextQuantity = (EditText) findViewById(R.id.editTextQuantity);
 
@@ -111,7 +113,7 @@ public class ProductDetailsActivity extends Activity {
 
                 // If we make it here, a valid quantity was entered
                 ShoppingCartHelper.setQuantity(selectedProduct, quantity);
-
+                mTotalQuantity = quantity;
                 // Close the activity
 
                 finish();

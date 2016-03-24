@@ -47,7 +47,7 @@ public class ListResult extends ListActivity {
     ArrayList<HashMap<String, String>> idiomsList;
 
     // url to get the idiom list
-    private static String url_search = "http://10.41.100.190/merchant/search.php";
+    private static String url_search = "http://10.41.100.140/merchant/search.php";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";

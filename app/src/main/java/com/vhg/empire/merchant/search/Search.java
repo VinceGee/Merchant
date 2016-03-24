@@ -7,19 +7,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.vhg.empire.merchant.R;
-import com.vhg.empire.merchant.inserting.InsertClass;
+
 
 /**
  * Created by VinceGee on 03/16/2016.
  */
 public class Search extends Fragment implements View.OnClickListener{
-    private EditText txtkeyword;
-    private Button btnsearch;
-    private Button scan;
+    private EditText mTxtkeyword;
+    private Button mBtnsearch;
+    private Button mScan;
     private Button insertbtn;
     static FirstPageFragmentListener firstPageListener;
     @Override
@@ -41,14 +42,15 @@ public class Search extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_search, container, false);
-        txtkeyword=(EditText)view.findViewById(R.id.txtkeyword);
-        btnsearch=(Button)view.findViewById(R.id.btnsearch);
-        scan=(Button)view.findViewById(R.id.scan);
-        btnsearch.setOnClickListener(this);
-        scan.setOnClickListener(this);
+        mTxtkeyword =(EditText)view.findViewById(R.id.txtkeyword);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mBtnsearch =(Button)view.findViewById(R.id.btnsearch);
+        mScan =(Button)view.findViewById(R.id.scan);
+        mBtnsearch.setOnClickListener(this);
+        mScan.setOnClickListener(this);
 
-        insertbtn=(Button)view.findViewById(R.id.insertbtn);
-        insertbtn.setOnClickListener(this);
+//        insertbtn=(Button)view.findViewById(R.id.insertbtn);
+//        insertbtn.setOnClickListener(this);
         return view;
     }
 
@@ -57,27 +59,17 @@ public class Search extends Fragment implements View.OnClickListener{
         if(v.getId()==R.id.btnsearch){
             Intent searchIntent = new Intent(getActivity(), ListResult.class);
             //send the keyword to the next screen
-            searchIntent.putExtra("keyword",txtkeyword.getText().toString());
+            searchIntent.putExtra("keyword", mTxtkeyword.getText().toString());
             //call the screen for listing
             startActivity(searchIntent);
         }else if(v.getId()==R.id.scan){
             firstPageListener.onSwitchToNextFragment();
 
-            /*FragmentTransaction trans = getFragmentManager().beginTransaction();
-            trans.replace(R.id.pager, TextingFragment.newInstance());
-            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            trans.addToBackStack(null);
-            trans.commit();*/
 
-            /*Intent searchIntent = new Intent(getActivity(), ListResult.class);
-            //send the keyword to the next screen
-            searchIntent.putExtra("keyword",txtkeyword.getText().toString());
-            //call the screen for listing
-            startActivity(searchIntent);*/
-        }else if(v.getId()==R.id.insertbtn){
+        }/*else if(v.getId()==R.id.insertbtn){
             Intent insert = new Intent(getActivity(), InsertClass.class);
             startActivity(insert);
-        }
+        }*/
 
     }
 
