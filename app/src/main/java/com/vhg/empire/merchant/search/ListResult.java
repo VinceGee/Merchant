@@ -137,6 +137,7 @@ public class ListResult extends ListActivity {
 
             // Check your log cat for JSON response
 //            Log.d("Search idioms: ", json.toString());
+            int pople;
 
             try {
                 // Checking for SUCCESS TAG
