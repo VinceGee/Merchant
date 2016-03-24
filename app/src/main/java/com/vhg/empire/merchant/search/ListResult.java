@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.vhg.empire.merchant.login.AppConfig;
 import com.vhg.empire.merchant.product.CatalogActivity;
 import com.vhg.empire.merchant.product.Product;
 import com.vhg.empire.merchant.product.ShoppingCartHelper;
@@ -46,8 +47,8 @@ public class ListResult extends ListActivity {
 
     ArrayList<HashMap<String, String>> idiomsList;
 
-    // url to get the idiom list
-    private static String url_search = "http://10.41.100.140/merchant/search.php";
+
+
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -127,17 +128,15 @@ public class ListResult extends ListActivity {
          * getting Idioms from url
          * */
         protected String doInBackground(String... args) {
-            // Building Parameter
-            int blue;
+            // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             //value captured from previous intent
             params.add(new BasicNameValuePair("keyword", searchkey));
             // getting JSON string from URL
-            JSONObject json = jParser.makeHttpRequest(url_search, "GET", params);
+            JSONObject json = jParser.makeHttpRequest(AppConfig.URL_SEARCH, "GET", params);
 
             // Check your log cat for JSON response
 //            Log.d("Search idioms: ", json.toString());
-            int pople;
 
             try {
                 // Checking for SUCCESS TAG
