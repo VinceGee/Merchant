@@ -9,4 +9,7 @@ public class AppConfig {
 
 	// Server user register url
 	public static String URL_INSERT = "http://10.41.100.190/merchant/inserting.php";
+
+    //Sever address to search for products
+	public static String URL_SEARCH = "http://10.41.100.190/merchant/search.php";
 }
