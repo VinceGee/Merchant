@@ -127,7 +127,8 @@ public class ListResult extends ListActivity {
          * getting Idioms from url
          * */
         protected String doInBackground(String... args) {
-            // Building Parameters
+            // Building Parameter
+            int blue;
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             //value captured from previous intent
             params.add(new BasicNameValuePair("keyword", searchkey));
