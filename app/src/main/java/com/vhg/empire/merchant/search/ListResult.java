@@ -40,6 +40,7 @@ import android.content.res.Resources;
 public class ListResult extends ListActivity {
 
     // Progress Dialog
+    int ppl;
     private ProgressDialog pDialog;
 
     // Creating JSON Parser object
