@@ -4,6 +4,7 @@ package com.vhg.empire.merchant.product;
  * Created by maditsha on 3/14/2016.
  */
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +12,28 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.vhg.empire.merchant.AppController;
 import com.vhg.empire.merchant.R;
 
 import java.util.List;
 
 public class ProductAdapter extends BaseAdapter {
 
-    private List<Product> mProductList;
+    private static List<Product> mProductList;
     private LayoutInflater mInflater;
     private boolean mShowQuantity;
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-    public ProductAdapter(List<Product> list, LayoutInflater inflater, boolean showQuantity) {
+    public ProductAdapter(Activity activity, List<Product> list, LayoutInflater inflater, boolean showQuantity) {
         mProductList = list;
         mInflater = inflater;
         mShowQuantity = showQuantity;
+    }
+
+    public static List<Product> getProductList(){
+        return mProductList;
     }
 
     @Override
@@ -50,8 +59,8 @@ public class ProductAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.item, null);
             item = new ViewItem();
 
-            item.productImageView = (ImageView) convertView
-                    .findViewById(R.id.ImageViewItem);
+//            item.productImageView = (ImageView) convertView
+//                    .findViewById(R.id.ImageViewItem);
 
             item.productTitle = (TextView) convertView
                     .findViewById(R.id.TextViewItem);
@@ -63,10 +72,18 @@ public class ProductAdapter extends BaseAdapter {
         } else {
             item = (ViewItem) convertView.getTag();
         }
+        if (imageLoader == null)
+            imageLoader = AppController.getInstance().getImageLoader();
 
         Product curProduct = mProductList.get(position);
 
-        item.productImageView.setImageDrawable(curProduct.productImage);
+        item.image = (NetworkImageView) convertView
+                .findViewById(R.id.ImageViewItem);
+
+        // user profile pic
+        item.image.setImageUrl(curProduct.getProductImage(), imageLoader);
+
+      //  item.productImageView.setImageDrawable(curProduct.productImage);
         item.productTitle.setText(curProduct.title);
 
         // Show the quantity in the cart or not
@@ -82,7 +99,7 @@ public class ProductAdapter extends BaseAdapter {
     }
 
     private class ViewItem {
-        ImageView productImageView;
+        NetworkImageView image;
         TextView productTitle;
         TextView productQuantity;
     }

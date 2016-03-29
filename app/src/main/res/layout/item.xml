@@ -11,11 +11,19 @@
         android:layout_height="fill_parent"
         android:orientation="horizontal">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/ImageViewItem"
             android:layout_width="100dip"
             android:layout_height="wrap_content"
-            android:layout_margin="5dip"/>
+            android:layout_margin="5dip"/>-->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/ImageViewItem"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="8dp"
+            android:scaleType="fitCenter" >
+        </com.android.volley.toolbox.NetworkImageView>
 
         <TextView
             android:id="@+id/TextViewItem"

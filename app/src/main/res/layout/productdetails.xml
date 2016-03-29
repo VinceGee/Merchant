@@ -8,16 +8,26 @@
         android:id="@+id/LinearLayoutHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_horizontal_margin"
         android:orientation="horizontal">
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/ImageViewProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dip"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:src="@drawable/deadoralive"/>
+            android:src="@drawable/deadoralive"/>-->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/productImage"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:adjustViewBounds="true"
+            android:layout_margin="8dp"
+            android:scaleType="fitXY" >
+        </com.android.volley.toolbox.NetworkImageView>
 
         <TextView
             android:id="@+id/TextViewProductTitle"

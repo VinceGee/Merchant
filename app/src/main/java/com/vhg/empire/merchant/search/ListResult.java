@@ -18,7 +18,7 @@ import com.vhg.empire.merchant.login.AppConfig;
 import com.vhg.empire.merchant.product.CatalogActivity;
 import com.vhg.empire.merchant.product.Product;
 import com.vhg.empire.merchant.product.ShoppingCartHelper;
-import com.vhg.empire.merchant.search.helper.AppController;
+import com.vhg.empire.merchant.AppController;
 import com.vhg.empire.merchant.R;
 
 import org.apache.http.NameValuePair;
@@ -61,10 +61,10 @@ public class ListResult extends ListActivity {
     private static final String TAG_MEANING = "meaning";*/
 
     private static final String TAG_ID = "id";
-    private static final String TAG_BARCODE = "barcode";
-    private static final String TAG_PNAME= "pname";
-    private static final String TAG_PDESC = "pdesc";
-    private static final String TAG_PPRICE = "pprice";
+   // private static final String TAG_BARCODE = "";
+    private static final String TAG_PNAME= "name";
+    private static final String TAG_PDESC = "description";
+    private static final String TAG_PPRICE = "price";
     private static final String TAG_IMAGE = "image";
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
@@ -154,7 +154,7 @@ public class ListResult extends ListActivity {
 
                         // Storing each json item in variable
                         String id = c.getString(TAG_ID);
-                        String barcode = c.getString(TAG_BARCODE);
+                      //  String barcode = c.getString(TAG_BARCODE);
                         String name = c.getString(TAG_PNAME);
                         String desc = c.getString(TAG_PDESC);
                         String price = c.getString(TAG_PPRICE);
@@ -163,7 +163,7 @@ public class ListResult extends ListActivity {
 
                         Resources res = ListResult.this.getResources();
 
-                        addProductCatalog(name,res.getDrawable(R.drawable.deadoralive),desc,Double.parseDouble(price));
+                        addProductCatalog(id,name,image,desc,Double.parseDouble(price));
 
 
                         // creating new HashMap
@@ -171,7 +171,7 @@ public class ListResult extends ListActivity {
 
                         // adding each child node to HashMap key => value
                         map.put(TAG_ID, id);
-                        map.put(TAG_BARCODE, barcode);
+                     //   map.put(TAG_BARCODE, barcode);
                         map.put(TAG_PNAME, name);
                         map.put(TAG_PDESC, desc);
                         map.put(TAG_PPRICE, price);
@@ -226,10 +226,10 @@ public class ListResult extends ListActivity {
 
         }
 
-        public void addProductCatalog(String title, Drawable image,String desc,Double price){
+        public void addProductCatalog(String id,String title, String image,String desc,Double price){
             if(ShoppingCartHelper.catalog ==null) {
                 ShoppingCartHelper.catalog = new Vector<Product>();
-                ShoppingCartHelper.catalog.add(new Product(title, image,
+                ShoppingCartHelper.catalog.add(new Product(id,title, image,
                         desc, price));
             }
         }

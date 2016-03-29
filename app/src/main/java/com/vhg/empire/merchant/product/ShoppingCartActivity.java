@@ -5,8 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -24,35 +27,43 @@ import com.vhg.empire.merchant.R;
 import com.vhg.empire.merchant.login.AppConfig;
 import com.vhg.empire.merchant.login.SQLiteHandler;
 import com.vhg.empire.merchant.login.SessionManager;
-import com.vhg.empire.merchant.search.helper.AppController;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.vhg.empire.merchant.AppController;
+import com.vhg.empire.merchant.newproduct.helper.CartListAdapter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoppingCartActivity extends Activity {
+public class ShoppingCartActivity extends Fragment {
     private static final String TAG = ShoppingCartActivity.class.getSimpleName();
 
     private List<Product> mCartList;
-    private ProductAdapter mProductAdapter;
+    private CartListAdapter mProductAdapter;
     private Button mCheckOut;
 
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    public static ListView listViewCatalog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shoppingcart);
-
-        mCheckOut = (Button) findViewById(R.id.checkOutButton);
+        //setContentView(R.layout.shoppingcart);
 
 
-        mCartList = ShoppingCartHelper.getCartList();
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.shoppingcart, container, false);
+        mCheckOut = (Button) view.findViewById(R.id.checkOutButton);
+
+
+        mCartList = ProductDetailsActivity.productsInCart;
+       Log.e("Check this size",""+mCartList.size());
+        //ShoppingCartHelper.getCartList();
        /* int productIndex = getIntent().getExtras().getInt(
                 ShoppingCartHelper.PRODUCT_INDEX);
         final Product selectedProduct = mCartList.get(productIndex);*/
@@ -64,8 +75,8 @@ public class ShoppingCartActivity extends Activity {
 
 
         // Create the list
-        final ListView listViewCatalog = (ListView) findViewById(R.id.ListViewCatalog);
-        mProductAdapter = new ProductAdapter(mCartList, getLayoutInflater(), true);
+        listViewCatalog = (ListView) view.findViewById(R.id.listViewCatalog);
+        mProductAdapter = new CartListAdapter(getActivity(),mCartList, true);
         listViewCatalog.setAdapter(mProductAdapter);
 
         listViewCatalog.setOnItemClickListener(new OnItemClickListener() {
@@ -73,28 +84,29 @@ public class ShoppingCartActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                Intent productDetailsIntent = new Intent(getBaseContext(), ProductDetailsActivity.class);
-                productDetailsIntent.putExtra(ShoppingCartHelper.PRODUCT_INDEX, position);
+                int prodPos = mCartList.get(position).getPos();
+                Intent productDetailsIntent = new Intent(getContext(), ProductDetailsActivity.class);
+                productDetailsIntent.putExtra(ShoppingCartHelper.PRODUCT_INDEX, prodPos);
                 startActivity(productDetailsIntent);
             }
         });
 
         // Progress dialog
-        pDialog = new ProgressDialog(this);
+        pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
 
         // Session manager
-        session = new SessionManager(getApplicationContext());
+        session = new SessionManager(getActivity());
 
         // SQLite database handler
-        db = new SQLiteHandler(getApplicationContext());
+        db = new SQLiteHandler(getActivity());
         mCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
                 String pname = /*selectedProduct.title;*/ mCartList.get(0).title;
@@ -103,12 +115,12 @@ public class ShoppingCartActivity extends Activity {
 
                 if (!pname.isEmpty() && !pdesc.isEmpty() && !qnty.isEmpty()) {
                     insertIntoDB(pname, pdesc, qnty);
-                    Intent intent = new Intent(ShoppingCartActivity.this, MainActivity.class);
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
-                    finish();
+                    getActivity().finish();
 
                 } else {
-                    Toast.makeText(getApplicationContext(),
+                    Toast.makeText(getActivity(),
                             "Cart must not be empty!", Toast.LENGTH_LONG)
                             .show();
                 }
@@ -117,14 +129,16 @@ public class ShoppingCartActivity extends Activity {
 
             }
         });
+        return view;
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         // Refresh the data
         if (mProductAdapter != null) {
+            //mProductAdapter = new ProductAdapter(getActivity(),mCartList,getActivity().getLayoutInflater(), true);
             mProductAdapter.notifyDataSetChanged();
         }
 
@@ -134,8 +148,8 @@ public class ShoppingCartActivity extends Activity {
             subTotal += p.price * quantity;
         }
 
-        TextView productPriceTextView = (TextView) findViewById(R.id.TextViewSubtotal);
-        productPriceTextView.setText("Subtotal: $" + subTotal);
+        TextView productPriceTextView = (TextView) getActivity().findViewById(R.id.TextViewSubtotal);
+        productPriceTextView.setText("Total Items In Cart :" + mCartList.size());
     }
 
 
@@ -157,7 +171,7 @@ public class ShoppingCartActivity extends Activity {
             public void onResponse(String response) {
                 Log.d(TAG, "Insert Response: " + response.toString());
               //  hideDialog();
-                Toast.makeText(getApplicationContext(), "Order has been placed successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Order has been placed successfully!", Toast.LENGTH_LONG).show();
              /*   try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
@@ -194,7 +208,7 @@ public class ShoppingCartActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Order Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
+                Toast.makeText(getActivity(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 //hideDialog();
             }

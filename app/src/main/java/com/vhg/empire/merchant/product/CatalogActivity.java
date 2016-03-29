@@ -29,7 +29,7 @@ public class CatalogActivity extends Activity {
 
         // Create the list
         ListView listViewCatalog = (ListView) findViewById(R.id.ListViewCatalog);
-        listViewCatalog.setAdapter(new ProductAdapter(mProductList, getLayoutInflater(), false));
+        listViewCatalog.setAdapter(new ProductAdapter(this,mProductList, getLayoutInflater(), false));
 
         listViewCatalog.setOnItemClickListener(new OnItemClickListener() {
 

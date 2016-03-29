@@ -1,57 +1,77 @@
 package com.vhg.empire.merchant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-import com.vhg.empire.merchant.MaAdapter.ViewPagerAdapter;
+
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalService;
+//import com.vhg.empire.merchant.maAdapter.ViewPagerAdapter;
+import com.vhg.empire.merchant.newproduct.ViewPagerAdapter;
 import com.vhg.empire.merchant.search.Search;
+import com.vhg.empire.merchant.search.fab.Fab;
+import com.vhg.empire.merchant.search.fab.MaterialSheetFab;
+import com.vhg.empire.merchant.search.fab.MaterialSheetFabEventListener;
 import com.vhg.empire.merchant.search.scanner.FullScannerFragment;
 import com.vhg.empire.merchant.login.LoginActivity;
 import com.vhg.empire.merchant.login.SQLiteHandler;
 import com.vhg.empire.merchant.login.SessionManager;
-//import com.vhg.empire.merchant.maAdapter.ViewPagerAdapter;
+
 import com.vhg.empire.merchant.styling.SlidingTabLayout;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    private int statusBarColor;
+
+    // PayPal configuration
+    private static PayPalConfiguration paypalConfig = new PayPalConfiguration()
+            .environment(Config.PAYPAL_ENVIRONMENT).clientId(
+                    Config.PAYPAL_CLIENT_ID);
 
     // Declaring Your View and Variables
-    Toolbar toolbar;
     ViewPager pager;
-    ViewPagerAdapter adapter;
+    ViewPagerAdapter mViewPagerAdapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[]={"Orders","Account"};
+    CharSequence Titles[]={"Orders","Cart"};
     int Numboftabs =2;
     private SQLiteHandler db;
     private SessionManager session;
+    private MaterialSheetFab materialSheetFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.app_name);
         setContentView(R.layout.activity_main);
+        setupActionBar();
 
-        //LOGIN ACTIVITY
+        ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
-        /*Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);*/
-
-        // Creating The Toolbar and setting it as the Toolbar for the activity
-
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
+        // Starting PayPal service
+        Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig);
+        startService(intent);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+        mViewPagerAdapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
+        pager.setAdapter(mViewPagerAdapter);
+       // updatePage(pager.getCurrentItem());
 
         // Assiging the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
@@ -61,12 +81,29 @@ public class MainActivity extends AppCompatActivity {
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsScrollColor);
+                return getResources().getColor(R.color.text_black_87);
             }
         });
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updatePage(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         ////////////////////LOGOUT////////////////////////////////////////
 
@@ -87,13 +124,22 @@ public class MainActivity extends AppCompatActivity {
         String name = user.get("name");
         String email = user.get("email");
 
+        setupFab();
+    }
 
+    /**
+     * Sets up the action bar.
+     */
+    private void setupActionBar() {
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar_redb));
+        final android.support.v7.app.ActionBar ab = getSupportActionBar();
+        //ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setTitle("Merchant");
+        ab.setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
     }
 
-    /*public static ViewPager getViewPager(){
-        return pager;
-    }*/
 
     /**
      * Logging out the user. Will set isLoggedIn flag to false in shared
@@ -114,13 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onBackPressed() {
-        if (pager.getCurrentItem() == 0) {
-            if (adapter.getItem(0) instanceof FullScannerFragment) {
-                ((FullScannerFragment) adapter.getItem(0)).backPressed();
-            } else if (adapter.getItem(0) instanceof Search) {
-                finish();
-            }
-        }
+
     }
 
     @Override
@@ -151,5 +191,103 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void setupFab() {
+
+        Fab fab = (Fab) findViewById(R.id.fab);
+        View sheetView = findViewById(R.id.fab_sheet);
+        View overlay = findViewById(R.id.overlay);
+        int sheetColor = getResources().getColor(R.color.background_card);
+        int fabColor = getResources().getColor(R.color.accent);
+
+        // Create material sheet FAB
+        materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay, sheetColor, fabColor);
+
+        // Set material sheet event listener
+        materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
+            @Override
+            public void onShowSheet() {
+                // Save current status bar color
+                statusBarColor = getStatusBarColor();
+                // Set darker status bar color to match the dim overlay
+                setStatusBarColor(getResources().getColor(R.color.tabsScrollColor));
+            }
+
+            @Override
+            public void onHideSheet() {
+                // Restore status bar color
+                setStatusBarColor(statusBarColor);
+            }
+        });
+
+        TextView search = (TextView) findViewById(R.id.sheet_search);
+        if (search != null) {
+            search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent search = new Intent(getApplicationContext(), Search.class);
+                    startActivity(search);
+                }
+            });
+        }
+
+        // Set material sheet item click listeners
+        TextView scan = (TextView) findViewById(R.id.sheet_scan);
+        if (scan != null) {
+            scan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent scan = new Intent(getApplicationContext(), FullScannerFragment.class);
+                    startActivity(scan);
+                }
+            });
+        }
+        findViewById(R.id.sheet_scan).setOnClickListener(this);
+        findViewById(R.id.fab_sheet_item_photo).setOnClickListener(this);
+        findViewById(R.id.fab_sheet_item_note).setOnClickListener(this);
+         }
+
+    /**
+     * Called when the selected page changes.
+     *
+     * @param selectedPage selected page
+*/
+    private void updatePage(int selectedPage) {
+        updateFab(selectedPage);
+    }
+
+    /**
+     * Updates the FAB based on the selected page
+     *
+     * @param selectedPage selected page
+*/
+    private void updateFab(int selectedPage) {
+        switch (selectedPage) {
+            case 0:
+                materialSheetFab.showFab();
+                break;
+            default:
+                materialSheetFab.hideSheetThenFab();
+                break;
+        }
+    }
+
+    private int getStatusBarColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getWindow().getStatusBarColor();
+        }
+        return 0;
+    }
+
+    private void setStatusBarColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
+        }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
 }
