@@ -1,61 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ffffff"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dip"
-        android:text="Shopping Cart"
-        android:textColor="#000000"
-        android:textSize="24dip"/>
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dip"
-        android:text="Click on a product to edit the quantity"/>
+        android:layout_margin="5sp"
+        android:text="Click on a product to edit the quantity" />
 
     <TextView
         android:id="@+id/TextViewSubtotal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dip"
-        android:text="Subtotal"
+android:layout_below="@+id/textView1"
+        android:layout_margin="5sp"
+        android:text=""
         android:textColor="#000000"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/listViewCatalog"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#ffffff"
-        android:cacheColorHint="#ffffff"
-        android:choiceMode="multipleChoice"
-        android:clickable="true">
+        android:layout_height="match_parent"
+        android:divider="@color/list_divider"
+android:layout_below="@id/TextViewSubtotal"
+        android:dividerHeight="1dp"
 
-    </ListView>
+        android:clickable="true"/>
 
-    <LinearLayout
-        android:id="@+id/LinearLayoutCheckout"
+    <!--<Button
+        android:id="@+id/checkOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_margin="5dip"
-        android:orientation="horizontal">
+        android:background="@color/accent"
+        android:text="Confirm Order"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="60sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginEnd="10sp"
 
-        <Button
-            android:id="@+id/checkOutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Confirm Order"/>
-    </LinearLayout>
+        />-->
+
+    <!--<Button
+        android:id="@+id/checkOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm Order"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:background="@color/accent"
+
+        />
+-->
+
+     <!--<LinearLayout
+         android:id="@+id/LinearLayoutCheckout"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="end"
+         android:orientation="horizontal"
+         android:layout_toRightOf="@+id/textView1"
+         android:layout_toEndOf="@+id/textView1">
+
+     </LinearLayout>
+-->
+    <Button
+        android:id="@+id/checkOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm Order"
+        android:layout_marginBottom="52sp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/textView1"
+        android:layout_toEndOf="@+id/textView1" />
 
 
-</LinearLayout>
+</RelativeLayout>

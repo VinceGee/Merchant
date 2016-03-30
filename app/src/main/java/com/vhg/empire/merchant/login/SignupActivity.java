@@ -1,22 +1,30 @@
 package com.vhg.empire.merchant.login;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.vhg.empire.merchant.AppConfig;
 import com.vhg.empire.merchant.AppController;
 import com.vhg.empire.merchant.MainActivity;
 import com.vhg.empire.merchant.R;
+import com.vhg.empire.merchant.dialogs.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +52,13 @@ public class SignupActivity extends Activity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    private RadioButton radioButton;
+    // Shared Preferences
+    public static SharedPreferences pref;
+
+    SharedPreferences.Editor editor;
+
+    public static final int REFERENCE_MODE_PRIVATE = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,19 +93,73 @@ public class SignupActivity extends Activity {
         // Register Button Click event
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String name = inputFullName.getText().toString().trim();
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
+// custom dialog
+                final Dialog dialog = new Dialog(view.getContext());
+                dialog.setContentView(R.layout.company_signup_dialog);
+                dialog.setTitle("Merchant");
 
-                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    registerUser(name, email, password);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter your details!", Toast.LENGTH_LONG)
-                            .show();
-                }
+                // set the custom dialog components - text, image and button
+                final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.option);
+
+
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.OkDialogbutton);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get selected radio button from radioGroup
+                        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                        // find the radiobutton by returned id
+                        radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+
+
+                        /*pref = getPreferences(REFERENCE_MODE_PRIVATE);
+                        editor = pref.edit();
+                        editor.putString("category",radioButton.getText()+"");
+                        editor.commit();*/
+                        setDefaults("category",radioButton.getText()+"",v.getContext());
+
+                        Toast.makeText(SignupActivity.this,
+                                getDefaults("category",v.getContext()), Toast.LENGTH_SHORT).show();
+
+
+                     /*  pref = getPreferences(REFERENCE_MODE_PRIVATE);
+                        Toast.makeText(SignupActivity.this,
+                                pref.getString("category","NO VALUE"), Toast.LENGTH_SHORT).show();*/
+
+                        String name = inputFullName.getText().toString().trim();
+                        String email = inputEmail.getText().toString().trim();
+                        String password = inputPassword.getText().toString().trim();
+
+
+                        if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+                            registerUser(name, email, password);
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Please enter your details!", Toast.LENGTH_LONG)
+                                    .show();
+                        }
+
+
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
+
             }
         });
+
+
+
+
+
+
+
 
         // Link to Login Screen
         btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +172,18 @@ public class SignupActivity extends Activity {
             }
         });
 
+
+    }
+    public static void setDefaults(String key, String value, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
     }
 
     /**

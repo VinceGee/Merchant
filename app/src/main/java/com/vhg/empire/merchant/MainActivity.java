@@ -11,11 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalService;
-//import com.vhg.empire.merchant.maAdapter.ViewPagerAdapter;
+import com.vhg.empire.merchant.dialogs.SweetAlertDialog;
 import com.vhg.empire.merchant.newproduct.ViewPagerAdapter;
 import com.vhg.empire.merchant.search.Search;
 import com.vhg.empire.merchant.search.fab.Fab;
@@ -35,10 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int statusBarColor;
 
-    // PayPal configuration
-    private static PayPalConfiguration paypalConfig = new PayPalConfiguration()
-            .environment(Config.PAYPAL_ENVIRONMENT).clientId(
-                    Config.PAYPAL_CLIENT_ID);
 
     // Declaring Your View and Variables
     ViewPager pager;
@@ -60,10 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        // Starting PayPal service
-        Intent intent = new Intent(this, PayPalService.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig);
-        startService(intent);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         mViewPagerAdapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
@@ -185,7 +173,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         }
         else if(id == R.id.logout){
-            logoutUser();
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setCustomImage(R.mipmap.ic_launcher)
+                    .setTitleText("Merchant")
+                    .setContentText("Are you sure you want to logout?")
+                    .setCancelText("No,cancel please!")
+                    .setConfirmText("Logout!")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            // reuse previous dialog instance, keep widget user state, reset them if you need
+                            sDialog.setTitleText("Merchant")
+                                    .setContentText("You have cancelled the logout")
+                                    .setConfirmText("OK")
+                                    .showCancelButton(false)
+                                    .setCancelClickListener(null)
+                                    .setConfirmClickListener(null)
+                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
+                        }
+                    })
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            logoutUser();
+                        }
+                    })
+                    .show();
         }
 
         return true;

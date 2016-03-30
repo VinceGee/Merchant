@@ -15,6 +15,24 @@ public class Product {
     public boolean selected;
     private int pos;
     private int quantity;
+    private String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Product(String id, String title, String productImage, String description,
+                   String category) {
+        this.title = title;
+        this.productImage = productImage;
+        this.description = description;
+        this.category = category;
+        this.id=id;
+    }
 
     public Product(String id,String title, String productImage/*Drawable productImage*/, String description,
                    double price) {
@@ -37,6 +55,9 @@ public class Product {
 
     public int getQuantity() {
         return quantity;
+    }
+    public void setQuantity(int qnty) {
+        this.quantity = qnty;
     }
     public int getPos() {
         return pos;

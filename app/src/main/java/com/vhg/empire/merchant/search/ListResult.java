@@ -3,7 +3,7 @@ package com.vhg.empire.merchant.search;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.vhg.empire.merchant.login.AppConfig;
+import com.vhg.empire.merchant.AppConfig;
 import com.vhg.empire.merchant.product.CatalogActivity;
 import com.vhg.empire.merchant.product.Product;
 import com.vhg.empire.merchant.product.ShoppingCartHelper;
@@ -32,8 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import android.content.res.Resources;
-
 /**
  * Created by VinceGee on 03/16/2016.
  */
@@ -47,6 +45,7 @@ public class ListResult extends ListActivity {
     JSONParser jParser = new JSONParser();
 
     ArrayList<HashMap<String, String>> idiomsList;
+    private List<Product> productsList;
 
 
 
@@ -64,7 +63,7 @@ public class ListResult extends ListActivity {
    // private static final String TAG_BARCODE = "";
     private static final String TAG_PNAME= "name";
     private static final String TAG_PDESC = "description";
-    private static final String TAG_PPRICE = "price";
+    private static final String TAG_CATEGORY = "category";
     private static final String TAG_IMAGE = "image";
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
@@ -157,13 +156,13 @@ public class ListResult extends ListActivity {
                       //  String barcode = c.getString(TAG_BARCODE);
                         String name = c.getString(TAG_PNAME);
                         String desc = c.getString(TAG_PDESC);
-                        String price = c.getString(TAG_PPRICE);
+                        String category = c.getString(TAG_CATEGORY);
                         String image = c.getString(TAG_IMAGE);
 
 
-                        Resources res = ListResult.this.getResources();
+                         Resources res = ListResult.this.getResources();
 
-                        addProductCatalog(id,name,image,desc,Double.parseDouble(price));
+                        addProductCatalog(id,name,image,desc,category);
 
 
                         // creating new HashMap
@@ -174,11 +173,14 @@ public class ListResult extends ListActivity {
                      //   map.put(TAG_BARCODE, barcode);
                         map.put(TAG_PNAME, name);
                         map.put(TAG_PDESC, desc);
-                        map.put(TAG_PPRICE, price);
+                        map.put(TAG_CATEGORY, category);
                         map.put(TAG_IMAGE, image);
 
                         // adding HashList to ArrayList
                         idiomsList.add(map);
+
+                        //adding to list
+                        productsList.add(new Product(id,name,desc,image,category));
 
                     }
                 } else {
@@ -207,7 +209,7 @@ public class ListResult extends ListActivity {
                      * */
 
 
-                  //  Log.e("Before intent",TAG_PPRICE+TAG_PNAME+TAG_PDESC);
+                  //  Log.e("Before intent",TAG_CATEGORY+TAG_PNAME+TAG_PDESC);
 
                     Log.e("Before intent","Start another intent");
 
@@ -217,7 +219,7 @@ public class ListResult extends ListActivity {
 
                    /* ListAdapter adapter = new SimpleAdapter(
                             ListResult.this, idiomsList,
-                            R.layout.list_view_yesearch, new String[] { TAG_ID, TAG_BARCODE, TAG_PNAME,TAG_PDESC,TAG_PPRICE,TAG_IMAGE},
+                            R.layout.list_view_yesearch, new String[] { TAG_ID, TAG_BARCODE, TAG_PNAME,TAG_PDESC,TAG_CATEGORY,TAG_IMAGE},
                             new int[] { R.id.id, R.id.pname, R.id.pdesc,R.id.pprice, R.id.pimage});
                     // updating listview
                     setListAdapter(adapter);*/
@@ -226,7 +228,7 @@ public class ListResult extends ListActivity {
 
         }
 
-        public void addProductCatalog(String id,String title, String image,String desc,Double price){
+        public void addProductCatalog(String id,String title, String image,String desc,String price){
             if(ShoppingCartHelper.catalog ==null) {
                 ShoppingCartHelper.catalog = new Vector<Product>();
                 ShoppingCartHelper.catalog.add(new Product(id,title, image,

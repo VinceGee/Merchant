@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.vhg.empire.merchant.newproduct.fragment.ProductFragment;
-import com.vhg.empire.merchant.product.ShoppingCartActivity;
+import com.vhg.empire.merchant.product.ShoppingCartFragment;
 
 
 /**
@@ -43,7 +43,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             ProductFragment product = new ProductFragment();
             return product;
         } else/*if (position == 1)*/ {
-            ShoppingCartActivity cart = new ShoppingCartActivity();
+            ShoppingCartFragment cart = new ShoppingCartFragment();
 
             return cart;
         }

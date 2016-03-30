@@ -14,7 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.vhg.empire.merchant.R;
-import com.vhg.empire.merchant.login.AppConfig;
+import com.vhg.empire.merchant.AppConfig;
 import com.vhg.empire.merchant.login.SQLiteHandler;
 import com.vhg.empire.merchant.login.SessionManager;
 import com.vhg.empire.merchant.AppController;

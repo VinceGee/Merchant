@@ -64,6 +64,7 @@ public class ProductAdapter extends BaseAdapter {
 
             item.productTitle = (TextView) convertView
                     .findViewById(R.id.TextViewItem);
+            item.productDesc = (TextView) convertView.findViewById(R.id.TextViewDesc);
 
             item.productQuantity = (TextView) convertView
                     .findViewById(R.id.textViewQuantity);
@@ -86,10 +87,12 @@ public class ProductAdapter extends BaseAdapter {
       //  item.productImageView.setImageDrawable(curProduct.productImage);
         item.productTitle.setText(curProduct.title);
 
+
+        item.productDesc.setText(curProduct.description);
+
         // Show the quantity in the cart or not
         if (mShowQuantity) {
-            item.productQuantity.setText("Quantity: "
-                    + ShoppingCartHelper.getProductQuantity(curProduct));
+            item.productQuantity.setText("Quantity: " + ShoppingCartHelper.getProductQuantity(curProduct));
         } else {
             // Hid the view
             item.productQuantity.setVisibility(View.GONE);
@@ -101,6 +104,7 @@ public class ProductAdapter extends BaseAdapter {
     private class ViewItem {
         NetworkImageView image;
         TextView productTitle;
+        TextView productDesc;
         TextView productQuantity;
     }
 

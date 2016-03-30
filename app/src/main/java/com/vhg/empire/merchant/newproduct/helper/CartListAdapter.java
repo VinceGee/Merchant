@@ -18,12 +18,13 @@ import com.vhg.empire.merchant.product.ShoppingCartHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by maditsha on 3/9/2016.
  */
 public class CartListAdapter extends BaseAdapter {
-    private List<Product> productList = new ArrayList<>();
+    private static List<Product> productList = new ArrayList<>();
     private Activity activity;
     private LayoutInflater inflater;
     private boolean mShowQuantity;
@@ -36,7 +37,12 @@ public class CartListAdapter extends BaseAdapter {
         mShowQuantity = showQuantity;
 
     }
-
+    public static List<Product> getProductList(){
+        return productList;
+    }
+    public static void removeItem(Objects pos){
+        productList.remove(pos);
+    }
     @Override
     public int getCount() {
         return productList.size();
@@ -92,8 +98,7 @@ public class CartListAdapter extends BaseAdapter {
 
         // Show the quantity in the cart or not
         if (mShowQuantity) {
-            item.productQuantity.setText("Quantity: "
-                    + curProduct.getQuantity());//ShoppingCartHelper.getProductQuantity(curProduct
+            item.productQuantity.setText("Quantity: " + curProduct.getQuantity());//ShoppingCartHelper.getProductQuantity(curProduct
         } else {
             // Hid the view
             item.productQuantity.setVisibility(View.GONE);

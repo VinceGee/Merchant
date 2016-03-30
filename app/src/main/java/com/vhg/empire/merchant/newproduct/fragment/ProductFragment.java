@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,11 +22,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.paypal.android.sdk.payments.PayPalItem;
+
 import com.vhg.empire.merchant.AppController;
-import com.vhg.empire.merchant.Config;
 import com.vhg.empire.merchant.R;
 
+import com.vhg.empire.merchant.AppConfig;
+import com.vhg.empire.merchant.login.SignupActivity;
 import com.vhg.empire.merchant.product.Product;
 import com.vhg.empire.merchant.product.ProductAdapter;
 import com.vhg.empire.merchant.product.ProductDetailsActivity;
@@ -37,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -59,11 +62,6 @@ public class ProductFragment extends Fragment  {
     //  private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_CODE_PAYMENT = 1;
 
-    // To store the products those are added to cart
-    public static List<PayPalItem> productsInCart = new ArrayList<PayPalItem>();
-
-    /*@Bind(R.id.checkout_fragment_item_details_text_view_item_quantity)
-    TextView mTextViewItemQuantity;*/
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -164,8 +162,27 @@ public class ProductFragment extends Fragment  {
 
         showpDialog();
 
+        //getting shared preferences category
+       // SignupActivity.pref = getActivity().getPreferences(SignupActivity.REFERENCE_MODE_PRIVATE);
+
+        String prefCategory = SignupActivity.getDefaults("category",getActivity());
+       // String prefCategory = SignupActivity.pref.getString("category","NO VALUE");
+
+        Log.e("Preference name",prefCategory);
+
+//        Toast.makeText(SignupActivity.this,
+//                pref.getString("category","NO VALUE"), Toast.LENGTH_SHORT).show();
+
+        //
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("category",prefCategory );
+
+
+        //making a request
+        JSONObject requestObject = new JSONObject(params);
+
         // Making json object request
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, Config.URL_PRODUCTS, (String) null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, AppConfig.URL_PRODUCTS, requestObject, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -216,8 +233,7 @@ public class ProductFragment extends Fragment  {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("ProductFragment", "Error: " + error.getMessage());
-                Toast.makeText(getActivity(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"Merchant could not find an internet connection. Please rectify this.", Toast.LENGTH_LONG).show();
                 // hide the progress dialog
                 hidepDialog();
             }
@@ -226,84 +242,6 @@ public class ProductFragment extends Fragment  {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
-
-/*
-    @Override
-    public void onAddToCartPressed(final Product product) {
-
-
-        // custom dialog
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.checkout_fragment_item_details);
-        dialog.setTitle("Edit Cart");
-
-        if (imageLoader == null)
-            imageLoader = AppController.getInstance().getImageLoader();
-
-        // set the custom dialog components - text, image and button
-        final TextView mTextViewItemQuantity = (TextView) dialog.findViewById(R.id.checkout_fragment_item_details_text_view_item_quantity);
-        TextView tvItemName = (TextView) dialog.findViewById(R.id.checkout_fragment_item_details_text_view_item_name);
-        TextView tvDesc = (TextView) dialog.findViewById(R.id.checkout_fragment_item_details_text_view_item_description);
-        TextView tvItemPrice = (TextView) dialog.findViewById(R.id.checkout_fragment_item_details_text_view_item_price);
-        // TextView tvItemPrice = (TextView) dialog.findViewById(R.id.checkout_fragment_item_details_text_view_item_price);
-
-        // text.setText("Android custom dialog example!");
-        tvItemName.setText(product.getName());
-        tvDesc.setText(product.getDescription());
-        tvItemPrice.setText("Price: $" + product.getPrice());
-
-        NetworkImageView image = (NetworkImageView) dialog
-                .findViewById(R.id.checkout_fragment_item_details_image_view);
-
-        //NetworkImageView mImage = new NetworkImageView(getActivity());
-        image.setImageUrl(product.getImage(), imageLoader);
-
-        Button bAdd = (Button) dialog.findViewById(R.id.checkout_fragment_item_details_button_plus);
-        bAdd.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                itemQuantity++;
-                mTextViewItemQuantity.setText(itemQuantity + "");
-            }
-        });
-
-        Button bSub = (Button) dialog.findViewById(R.id.checkout_fragment_item_details_button_minus);
-        bSub.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                while (itemQuantity > 0) {
-                    itemQuantity--;
-                }
-                mTextViewItemQuantity.setText(itemQuantity + "");
-            }
-        });
-
-        Button dialogOKButton = (Button) dialog.findViewById(R.id.checkout_fragment_item_details_button_add_to_cart);
-        // if button is clicked, close the custom dialog
-        dialogOKButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                PayPalItem item = new PayPalItem(product.getName(), itemQuantity,
-                        product.getPrice(), Config.DEFAULT_CURRENCY, product.getSku());
-
-                productsInCart.add(item);
-                ((BaseAdapter) CartFragment.mListView.getAdapter()).notifyDataSetChanged();
-
-                Toast.makeText(getActivity(),
-                        item.getName() + " added to cart!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-
-
-    }*/
-
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

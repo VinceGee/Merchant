@@ -1,64 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayoutItem"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="10dp" >
 
-    <LinearLayout
-        android:id="@+id/linearLayoutDetails"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal">
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/ImageViewItem"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="8dp"
+        android:scaleType="fitCenter" >
+    </com.android.volley.toolbox.NetworkImageView>
 
-        <!--<ImageView
-            android:id="@+id/ImageViewItem"
-            android:layout_width="100dip"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dip"/>-->
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/ImageViewItem"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="8dp"
-            android:scaleType="fitCenter" >
-        </com.android.volley.toolbox.NetworkImageView>
-
-        <TextView
-            android:id="@+id/TextViewItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="5dip"
-            android:maxWidth="150dip"
-            android:minLines="2"
-            android:text="Book Title"
-            android:textColor="#000000"
-            android:textSize="26dip"/>
-
-        <TextView
-            android:id="@+id/TextView01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutQuantity"
+    <TextView
+        android:id="@+id/TextViewItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_margin="5dip"
-        android:orientation="horizontal">
+        android:layout_toRightOf="@id/ImageViewItem"
+        android:padding="5dp"
+        android:textColor="@color/lbl_product_name"
+        android:textSize="16sp"
+        android:text="GOODS"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantity:"
-            android:textColor="#000000"
-            android:textSize="18dip"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/TextViewDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TextViewItem"
+        android:layout_toRightOf="@id/ImageViewItem"
+        android:padding="5dp"
+        android:text="DESCRIPTION"
+        android:textColor="@color/lbl_product_description" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textViewQuantity"
+        android:text="QUANTITY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TextViewDesc"
+        android:layout_toRightOf="@id/ImageViewItem"
+        android:padding="5dp"
+        android:textColor="@color/lbl_product_description" />
+
+
+</RelativeLayout>

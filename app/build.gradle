@@ -43,6 +43,4 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    compile 'com.paypal.sdk:paypal-android-sdk:2.13.1'
-
 }

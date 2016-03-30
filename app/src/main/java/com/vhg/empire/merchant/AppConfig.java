@@ -1,4 +1,4 @@
-package com.vhg.empire.merchant.login;
+package com.vhg.empire.merchant;
 
 public class AppConfig {
 	// Server user login url
@@ -12,4 +12,6 @@ public class AppConfig {
 
     //Sever address to search for products
 	public static String URL_SEARCH = "http://10.41.100.190/merchant/search.php";
+
+	public static final String URL_PRODUCTS = "http://10.41.100.190/merchant/v1/products";
 }

@@ -28,10 +28,10 @@ public class CatalogActivity extends Activity {
         mProductList = ShoppingCartHelper.getCatalog(getResources());
 
         // Create the list
-        ListView listViewCatalog = (ListView) findViewById(R.id.ListViewCatalog);
-        listViewCatalog.setAdapter(new ProductAdapter(this,mProductList, getLayoutInflater(), false));
+        ListView catalogList = (ListView) findViewById(R.id.zicataloglist);
+        catalogList.setAdapter(new ProductAdapter(this,mProductList, getLayoutInflater(), false));
 
-        listViewCatalog.setOnItemClickListener(new OnItemClickListener() {
+        catalogList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -47,7 +47,7 @@ public class CatalogActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                Intent viewShoppingCartIntent = new Intent(getBaseContext(), ShoppingCartActivity.class);
+                Intent viewShoppingCartIntent = new Intent(getBaseContext(), ShoppingCartFragment.class);
                 startActivity(viewShoppingCartIntent);
             }
         });
