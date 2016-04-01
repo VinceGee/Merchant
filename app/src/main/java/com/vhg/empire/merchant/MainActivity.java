@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     .setCancelClickListener(null)
                                     .setConfirmClickListener(null)
                                     .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sDialog.dismiss();
 
                         }
                     })
@@ -201,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     })
                     .show();
+
         }
 
         return true;

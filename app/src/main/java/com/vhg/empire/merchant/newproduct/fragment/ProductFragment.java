@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.content.SharedPreferences;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,17 +21,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
-
+import com.vhg.empire.merchant.AppConfig;
 import com.vhg.empire.merchant.AppController;
 import com.vhg.empire.merchant.R;
-
-import com.vhg.empire.merchant.AppConfig;
+import com.vhg.empire.merchant.login.SQLiteHandler;
+import com.vhg.empire.merchant.login.SessionManager;
 import com.vhg.empire.merchant.login.SignupActivity;
 import com.vhg.empire.merchant.product.Product;
 import com.vhg.empire.merchant.product.ProductAdapter;
 import com.vhg.empire.merchant.product.ProductDetailsActivity;
 import com.vhg.empire.merchant.product.ShoppingCartHelper;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,14 +67,17 @@ public class ProductFragment extends Fragment  {
     private ListView listView;
     private Button btnCheckout;
 
+    private SessionManager session;
+    private SQLiteHandler db;
+    public String username;
+
 
     // To store all the products
     private List<Product> productsList;
     private ProductAdapter adapter;
     // Progress dialog
     private ProgressDialog pDialog;
-    /* @Bind(R.id.checkout_fragment_item_details_image_view)
-     ImageView mImageView;*/
+
     private OnFragmentInteractionListener mListener;
     private int itemQuantity = 1;
 
@@ -142,6 +143,19 @@ public class ProductFragment extends Fragment  {
 
         // Fetching products from server
         fetchProducts();
+
+
+        // Session manager
+        session = new SessionManager(getActivity());
+
+        // SQLite database handler
+        db = new SQLiteHandler(getActivity());
+
+        // Fetching user details from SQLite
+        HashMap<String, String> user = db.getUserDetails();
+
+        username = user.get("name");
+
         return view;
     }
 
@@ -165,17 +179,19 @@ public class ProductFragment extends Fragment  {
         //getting shared preferences category
        // SignupActivity.pref = getActivity().getPreferences(SignupActivity.REFERENCE_MODE_PRIVATE);
 
-        String prefCategory = SignupActivity.getDefaults("category",getActivity());
+    //     String prefCategory = SignupActivity.getDefaults("category",getActivity());
        // String prefCategory = SignupActivity.pref.getString("category","NO VALUE");
 
-        Log.e("Preference name",prefCategory);
+       //Log.e("Preference name",prefCategory);
 
 //        Toast.makeText(SignupActivity.this,
 //                pref.getString("category","NO VALUE"), Toast.LENGTH_SHORT).show();
 
         //
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("category",prefCategory );
+        params.put("category","Laptops" );
+        params.put("username", username);
+
 
 
         //making a request
@@ -187,29 +203,26 @@ public class ProductFragment extends Fragment  {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("This ProductFragment", response.toString());
+
                 Resources res = ProductFragment.this.getResources();
 
                 try {
-                    JSONArray products = response
-                            .getJSONArray("products");
+                    JSONArray products = response.getJSONArray("products");
 
                     // looping through all product nodes and storing
                     // them in array list
                     for (int i = 0; i < products.length(); i++) {
 
-                        JSONObject product = (JSONObject) products
-                                .get(i);
+                        JSONObject product = (JSONObject) products.get(i);
 
                         String id = product.getString("id");
                         String name = product.getString("name");
-                        String description = product
-                                .getString("description");
+                        String description = product.getString("description");
                         String image = product.getString("image");
                         double price = Double.parseDouble(product.getString("price"));
                         String sku = product.getString("sku");
 
-                        Product p = new Product(id, name,image/*res.getDrawable(R.drawable.deadoralive)*/, description,
-                                price);
+                        Product p = new Product(id, name,image/*res.getDrawable(R.drawable.deadoralive)*/, description, price);
 
                         productsList.add(p);
                     }
@@ -227,15 +240,18 @@ public class ProductFragment extends Fragment  {
 
                 // hiding the progress dialog
                 hidepDialog();
+
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("ProductFragment", "Error: " + error.getMessage());
-                Toast.makeText(getActivity(),"Merchant could not find an internet connection. Please rectify this.", Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getActivity(),"Merchant could not connect to the server. Please try again later.", Toast.LENGTH_LONG).show();
                 // hide the progress dialog
                 hidepDialog();
+
             }
         });
 

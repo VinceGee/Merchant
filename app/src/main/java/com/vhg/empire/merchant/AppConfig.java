@@ -1,17 +1,24 @@
 package com.vhg.empire.merchant;
 
 public class AppConfig {
-	// Server user login url
-	public static String URL_LOGIN = "http://10.41.100.190/merchant/login.php";
 
-	// Server user register url
-	public static String URL_REGISTER = "http://10.41.100.190/merchant/register.php";
+    // Server base url
+	public static final String BASE_URL = "http://192.168.43.213/merchant";
 
-	// Server user register url
-	public static String URL_INSERT = "http://10.41.100.190/merchant/inserting.php";
+    // Server user login url
+	public static final String URL_LOGIN = BASE_URL + "/login.php";
+
+    // Server user register url
+	public static final String URL_REGISTER = BASE_URL + "/register.php";
+
+    // Server user place order url
+	public static final String URL_INSERT = BASE_URL + "/inserting.php";
 
     //Sever address to search for products
-	public static String URL_SEARCH = "http://10.41.100.190/merchant/search.php";
+	public static final String URL_SEARCH = BASE_URL + "/search.php";
 
-	public static final String URL_PRODUCTS = "http://10.41.100.190/merchant/v1/products";
+    //Sever address to fetch products
+	public static final String URL_PRODUCTS = BASE_URL + "/v1/products";
+
+
 }

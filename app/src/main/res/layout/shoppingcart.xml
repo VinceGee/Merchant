@@ -14,7 +14,7 @@
         android:id="@+id/TextViewSubtotal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-android:layout_below="@+id/textView1"
+        android:layout_below="@+id/textView1"
         android:layout_margin="5sp"
         android:text=""
         android:textColor="#000000"
@@ -24,11 +24,10 @@ android:layout_below="@+id/textView1"
         android:id="@+id/listViewCatalog"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/TextViewSubtotal"
+        android:clickable="true"
         android:divider="@color/list_divider"
-android:layout_below="@id/TextViewSubtotal"
-        android:dividerHeight="1dp"
-
-        android:clickable="true"/>
+        android:dividerHeight="1dp" />
 
     <!--<Button
         android:id="@+id/checkOutButton"
@@ -58,26 +57,26 @@ android:layout_below="@id/TextViewSubtotal"
         />
 -->
 
-     <!--<LinearLayout
-         android:id="@+id/LinearLayoutCheckout"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="end"
-         android:orientation="horizontal"
-         android:layout_toRightOf="@+id/textView1"
-         android:layout_toEndOf="@+id/textView1">
+    <!--<LinearLayout
+        android:id="@+id/LinearLayoutCheckout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@+id/textView1"
+        android:layout_toEndOf="@+id/textView1">
 
-     </LinearLayout>
+    </LinearLayout>
 -->
     <Button
         android:id="@+id/checkOutButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm Order"
-        android:layout_marginBottom="52sp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="52sp"
+        android:layout_toEndOf="@+id/textView1"
         android:layout_toRightOf="@+id/textView1"
-        android:layout_toEndOf="@+id/textView1" />
+        android:text="Confirm Order" />
 
 
 </RelativeLayout>
