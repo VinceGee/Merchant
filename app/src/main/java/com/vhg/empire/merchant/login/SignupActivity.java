@@ -44,11 +44,7 @@ public class SignupActivity extends Activity {
     @InjectView(R.id.input_password) EditText inputPassword;
     @InjectView(R.id.btnRegister) Button btnRegister;
     @InjectView(R.id.btnLinkToLoginScreen) Button btnLinkToLogin;
-    //private Button btnRegister;
-    //private Button btnLinkToLogin;
-    //private EditText inputFullName;
-    //private EditText inputEmail;
-    //private EditText inputPassword;
+
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -132,13 +128,14 @@ public class SignupActivity extends Activity {
 
                         String name = inputFullName.getText().toString().trim();
                         String email = inputEmail.getText().toString().trim();
-                        String company = getDefaults("category",v.getContext()).trim();
                         String password = inputPassword.getText().toString().trim();
+                        String company = getDefaults("category",v.getContext()).trim();
+
 
 
 
                         if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !company.isEmpty()) {
-                            registerUser(name, email,company, password);
+                            registerUser(name, email, password, company);
                         } else {
                             Toast.makeText(getApplicationContext(),
                                     "Please enter your details!", Toast.LENGTH_LONG)
