@@ -3,7 +3,7 @@ package com.vhg.empire.merchant;
 public class AppConfig {
 
     // Server base url
-	public static final String BASE_URL = "http://192.168.43.213/merchant";
+	public static final String BASE_URL = "http://10.41.100.190/merchant";
 
     // Server user login url
 	public static final String URL_LOGIN = BASE_URL + "/login.php";
