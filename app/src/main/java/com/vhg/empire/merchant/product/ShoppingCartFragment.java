@@ -1,7 +1,6 @@
 package com.vhg.empire.merchant.product;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -22,13 +20,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.vhg.empire.merchant.AppConfig;
+import com.vhg.empire.merchant.AppController;
 import com.vhg.empire.merchant.MainActivity;
 import com.vhg.empire.merchant.R;
-import com.vhg.empire.merchant.AppConfig;
 import com.vhg.empire.merchant.dialogs.SweetAlertDialog;
 import com.vhg.empire.merchant.login.SQLiteHandler;
 import com.vhg.empire.merchant.login.SessionManager;
-import com.vhg.empire.merchant.AppController;
 import com.vhg.empire.merchant.newproduct.helper.CartListAdapter;
 
 import java.util.HashMap;
@@ -42,11 +40,13 @@ public class ShoppingCartFragment extends Fragment {
     private CartListAdapter mProductAdapter;
     private Button mCheckOut;
 
+    private int i = -1;
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
     public static ListView mListViewCatalog;
-    private int i = -1;
+
+    public String username;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,20 +99,22 @@ public class ShoppingCartFragment extends Fragment {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
 
+
         // Session manager
         session = new SessionManager(getActivity());
 
         // SQLite database handler
         db = new SQLiteHandler(getActivity());
+
+        // Fetching user details from SQLite
+        HashMap<String, String> user = db.getUserDetails();
+
+        username = user.get("name");
+
         mCheckOut.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-               /* InputMethodManager inputManager = (InputMethodManager)
-                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);*/
 
                 new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
                         .setCustomImage(R.mipmap.ic_launcher)
@@ -140,72 +142,31 @@ public class ShoppingCartFragment extends Fragment {
                             public void onClick(SweetAlertDialog sDialog) {
                                 if (mCartList.size() != 0) {
 
-                                    String pname = mCartList.get(0).title;
-                                    String pdesc = mCartList.get(0).description;
-                                    String qnty = "" + ProductDetailsActivity.mTotalQuantity;
 
-                                    if (!pname.isEmpty() && !pdesc.isEmpty() && !qnty.isEmpty()) {
-                                        insertIntoDB(pname, pdesc, qnty);
-
-                                        final SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                                                .setTitleText("Loading");
-                                        pDialog.show();
-                                        pDialog.setCancelable(false);
-                                        new CountDownTimer(800 * 7, 800) {
-                                            public void onTick(long millisUntilFinished) {
-                                                // you can change the progress bar color by ProgressHelper every 800 millis
-                                                i++;
-                                                switch (i){
-                                                    case 0:
-                                                        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.blue_btn_bg_color));
-                                                        break;
-                                                    case 1:
-                                                        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.material_deep_teal_50));
-                                                        break;
-                                                    case 2:
-                                                        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.success_stroke_color));
-                                                        break;
-                                                    case 3:
-                                                        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.material_deep_teal_20));
-                                                        break;
-                                                    case 4:
-                                                        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.material_blue_grey_80));
-                                                        break;
-                                                    case 5:
-                                                        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.warning_stroke_color));
-                                                        break;
-                                                    case 6:
-                                                        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.success_stroke_color));
-                                                        break;
-                                                }
-                                            }
-
-                                            public void onFinish() {
-                                                i = -1;
-                                                pDialog.setTitleText("Merchant has placed your order successfully!")
-                                                        .setConfirmText("OK")
-                                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                            }
-                                        }.start();
-
-                                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                                        startActivity(intent);
-                                        getActivity().finish();
-
-                                    } else {
-                                        Toast.makeText(getActivity(),
-                                                "Cart must not be empty!", Toast.LENGTH_LONG)
-                                                .show();
+                                    for (int i = 0; i < mCartList.size(); i++) {
+                                        String pname = mCartList.get(i).title;
+                                        String pdesc = mCartList.get(i).description;
+                                        String qnty = "" + mCartList.get(i).getQuantity();
+                                       // String username = username.trim();
+                                        if (!pname.isEmpty() && !pdesc.isEmpty() && !qnty.isEmpty()) {
+                                            insertIntoDB(pname, pdesc, qnty);
+                                        } else {
+                                            Toast.makeText(getActivity(), "Cart must not be empty!", Toast.LENGTH_LONG).show();
+                                        }
                                     }
+
                                 } else {
-                                    Toast.makeText(getActivity(), "Cart Empty", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Cart must not be empty!", Toast.LENGTH_SHORT).show();
                                 }
+                                sDialog.dismiss();
                             }
+
+
                         })
+
                         .show();
-
-
             }
+
         });
         return view;
     }
@@ -240,15 +201,23 @@ public class ShoppingCartFragment extends Fragment {
         String tag_string_req = "req_insert";
 
         pDialog.setMessage("Placing Order...");
-        // showDialog();
+        showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.URL_INSERT, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Insert Response: " + response.toString());
-                //  hideDialog();
+
+                Log.e(TAG, "Insert Response: " + response.toString());
+                hideDialog();
+                for (int i = 0; i < mCartList.size(); i++) {
+                    mCartList.remove(i);
+                }
                 Toast.makeText(getActivity(), "Order has been placed successfully!", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish();
              /*   try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
@@ -287,17 +256,19 @@ public class ShoppingCartFragment extends Fragment {
                 Log.e(TAG, "Order Error: " + error.getMessage());
                 Toast.makeText(getActivity(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
-                //hideDialog();
+                hideDialog();
             }
         }) {
 
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to register url
+                // Posting params to insert url
                 Map<String, String> params = new HashMap<String, String>();
+
                 params.put("pname", pname);
                 params.put("pdesc", pdesc);
                 params.put("qnty", qnty);
+                params.put("username",username);
 
                 return params;
             }
@@ -308,7 +279,7 @@ public class ShoppingCartFragment extends Fragment {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
-    /*private void showDialog() {
+    private void showDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
@@ -317,7 +288,7 @@ public class ShoppingCartFragment extends Fragment {
         if ((this.pDialog != null) && this.pDialog.isShowing()) {
             this.pDialog.dismiss();
         }
-       *//* if (pDialog.isShowing())
-            pDialog.dismiss();*//*
-    }*/
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
 }

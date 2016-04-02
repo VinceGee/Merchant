@@ -38,10 +38,6 @@ public class LoginActivity extends Activity {
     @InjectView(R.id.password) EditText inputPassword;
     @InjectView(R.id.btnLogin) Button btnLogin;
     @InjectView(R.id.btnLinkToRegisterScreen) TextView btnLinkToRegister;
-    //private Button btnLogin;
-    //private Button btnLinkToRegister;
-    //private EditText inputEmail;
-    //private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -143,15 +139,13 @@ public class LoginActivity extends Activity {
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
+                        String created_at = user.getString("created_at");
 
                         // Inserting row in users table
                         db.addUser(name, email, uid, created_at);
 
                         // Launch main activity
-                        Intent intent = new Intent(LoginActivity.this,
-                                MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
@@ -172,8 +166,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Merchant could not connect to the Server" /*error.getMessage()*/, Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {

@@ -25,7 +25,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
 
-        this.context=context;
+        //this.context=context;
     }
 
     public ViewPagerAdapter(Context context,FragmentManager fm) {

@@ -44,11 +44,7 @@ public class SignupActivity extends Activity {
     @InjectView(R.id.input_password) EditText inputPassword;
     @InjectView(R.id.btnRegister) Button btnRegister;
     @InjectView(R.id.btnLinkToLoginScreen) Button btnLinkToLogin;
-    //private Button btnRegister;
-    //private Button btnLinkToLogin;
-    //private EditText inputFullName;
-    //private EditText inputEmail;
-    //private EditText inputPassword;
+
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -133,10 +129,13 @@ public class SignupActivity extends Activity {
                         String name = inputFullName.getText().toString().trim();
                         String email = inputEmail.getText().toString().trim();
                         String password = inputPassword.getText().toString().trim();
+                        String company = getDefaults("category",v.getContext()).trim();
 
 
-                        if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                            registerUser(name, email, password);
+
+
+                        if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !company.isEmpty()) {
+                            registerUser(name, email, password, company);
                         } else {
                             Toast.makeText(getApplicationContext(),
                                     "Please enter your details!", Toast.LENGTH_LONG)
@@ -190,8 +189,7 @@ public class SignupActivity extends Activity {
      * Function to store user in MySQL database will post params(tag, name,
      * email, password) to register url
      * */
-    private void registerUser(final String name, final String email,
-                              final String password) {
+    private void registerUser(final String name, final String email, final String password, final String company) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -217,11 +215,11 @@ public class SignupActivity extends Activity {
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
+                        //String company = user.getString("company");
+                        String created_at = user.getString("created_at");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, created_at);
+                        db.addUser(name, email,/* company,*/ uid, created_at);
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
@@ -259,6 +257,7 @@ public class SignupActivity extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("name", name);
                 params.put("email", email);
+                params.put("company", company);
                 params.put("password", password);
 
                 return params;
