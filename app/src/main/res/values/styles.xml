@@ -56,8 +56,7 @@
         <item name="android:background">@color/ColorPrimary</item>
     </style>
     <!-- Popup Menu Background Color styles -->
-    <style name="MyPopupMenu"
-        parent="@android:style/Widget.Holo.ListPopupWindow">
+    <style name="MyPopupMenu" parent="@android:style/Widget.Holo.ListPopupWindow">
         <item name="android:popupBackground">@color/white</item>
     </style>
     <!-- Popup Menu Text Color styles -->
@@ -200,4 +199,8 @@
     <style name="TextAppearance.MaterialSheetFab.Note.Title" parent="TextAppearance.MaterialSheetFab.Note">
         <item name="android:textSize">@dimen/note_title_textsize</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

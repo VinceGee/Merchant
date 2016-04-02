@@ -38,14 +38,14 @@ import java.util.Vector;
 public class ListResult extends ListActivity {
 
     // Progress Dialog
-    int ppl;
+    int pple;
     private ProgressDialog pDialog;
 
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
     ArrayList<HashMap<String, String>> idiomsList;
-    private List<Product> productsList;
+    private List<Product> productsList = new ArrayList<Product>();;
 
 
 
@@ -64,6 +64,7 @@ public class ListResult extends ListActivity {
     private static final String TAG_PNAME= "name";
     private static final String TAG_PDESC = "description";
     private static final String TAG_CATEGORY = "category";
+    private static final String TAG_PRICE = "price";
     private static final String TAG_IMAGE = "image";
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
@@ -131,12 +132,13 @@ public class ListResult extends ListActivity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             //value captured from previous intent
+            Log.e("Search keyword: ", searchkey);
             params.add(new BasicNameValuePair("keyword", searchkey));
             // getting JSON string from URL
             JSONObject json = jParser.makeHttpRequest(AppConfig.URL_SEARCH, "GET", params);
 
             // Check your log cat for JSON response
-//            Log.d("Search idioms: ", json.toString());
+           Log.e("Search idioms: ", json.toString());
 
             try {
                 // Checking for SUCCESS TAG
@@ -156,13 +158,14 @@ public class ListResult extends ListActivity {
                       //  String barcode = c.getString(TAG_BARCODE);
                         String name = c.getString(TAG_PNAME);
                         String desc = c.getString(TAG_PDESC);
-                        String category = c.getString(TAG_CATEGORY);
+                      //  String category = c.getString(TAG_CATEGORY);
                         String image = c.getString(TAG_IMAGE);
+                        String price = c.getString(TAG_PRICE);
 
 
-                         Resources res = ListResult.this.getResources();
+                        // Resources res = ListResult.this.getResources();
 
-                        addProductCatalog(id,name,image,desc,category);
+                        //addProductCatalog(id,name,image,desc,category);
 
 
                         // creating new HashMap
@@ -173,14 +176,15 @@ public class ListResult extends ListActivity {
                      //   map.put(TAG_BARCODE, barcode);
                         map.put(TAG_PNAME, name);
                         map.put(TAG_PDESC, desc);
-                        map.put(TAG_CATEGORY, category);
+                        map.put(TAG_PRICE, price);
                         map.put(TAG_IMAGE, image);
 
                         // adding HashList to ArrayList
                         idiomsList.add(map);
 
+
                         //adding to list
-                        productsList.add(new Product(id,name,desc,image,category));
+                        productsList.add(new Product(id,name,image,desc,price));
 
                     }
                 } else {
@@ -208,8 +212,12 @@ public class ListResult extends ListActivity {
                      * Updating parsed JSON data into ListView
                      * */
 
-
+                    Log.e("List size",productsList.size()+"");
                   //  Log.e("Before intent",TAG_CATEGORY+TAG_PNAME+TAG_PDESC);
+                    for (int i=0;i<productsList.size();i++){
+                        addProductCatalog(productsList.get(i).getId(),productsList.get(i).getTitle(),productsList.get(i).getProductImage(),
+                                productsList.get(i).getDescription(),productsList.get(i).getPrice()+"");
+                    }
 
                     Log.e("Before intent","Start another intent");
 

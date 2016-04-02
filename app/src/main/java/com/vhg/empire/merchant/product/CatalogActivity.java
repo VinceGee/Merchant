@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.vhg.empire.merchant.R;
+import com.vhg.empire.merchant.search.SearchAdapter;
+import com.vhg.empire.merchant.search.SearchDetailsActivity;
 
 import java.util.List;
 
@@ -29,16 +31,17 @@ public class CatalogActivity extends Activity {
 
         // Create the list
         ListView catalogList = (ListView) findViewById(R.id.zicataloglist);
-        catalogList.setAdapter(new ProductAdapter(this,mProductList, getLayoutInflater(), false));
+        catalogList.setAdapter(new SearchAdapter(this,mProductList, getLayoutInflater(), false));
 
         catalogList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                Intent productDetailsIntent = new Intent(getBaseContext(),ProductDetailsActivity.class);
+                Intent productDetailsIntent = new Intent(getBaseContext(),SearchDetailsActivity.class);
                 productDetailsIntent.putExtra(ShoppingCartHelper.PRODUCT_INDEX, position);
                 startActivity(productDetailsIntent);
+                finish();
             }
         });
 
@@ -47,8 +50,7 @@ public class CatalogActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                Intent viewShoppingCartIntent = new Intent(getBaseContext(), ShoppingCartFragment.class);
-                startActivity(viewShoppingCartIntent);
+                finish();
             }
         });
 

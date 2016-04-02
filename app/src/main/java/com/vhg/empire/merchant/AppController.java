@@ -7,7 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.vhg.empire.merchant.search.helper.LruBitmapCache;
+import com.vhg.empire.merchant.newproduct.helper.LruBitmapCache;
 
 
 /**

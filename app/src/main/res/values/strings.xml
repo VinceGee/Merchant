@@ -35,5 +35,6 @@
     <string name="createnote">Create Note</string>
     <string name="search">Search</string>
     <string name="search_using_scanner">Search Using Scanner</string>
+    <string name="title_activity_search_activty">SearchActivty</string>
 
 </resources>

@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(View v) {
                     Intent search = new Intent(getApplicationContext(), Search.class);
                     startActivity(search);
+                    finish();
                 }
             });
         }
